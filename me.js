@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const fortune = require('./lib/fortunes')
 const handlebars = require('express-handlebars')
 	.create({ defaultLayout: 'main' });
 app.use(express.static(__dirname + '\\public'));
@@ -14,7 +15,7 @@ app.get('/', function (req, res) {
 });
 app.get('/about', function (req, res) {
 	const randomFortune = fortunes[Math.floor(Math.random() * fortunes.length)];
-	res.render('about', { fortune: randomFortune, dick: 'хуй собачий соси сука' });
+	res.render('about', { fortune: fortune.getFortune(), dick: 'хуй собачий соси сука' });
 });
 app.use((req, res) => {
 	res.status(404);
@@ -30,10 +31,4 @@ app.listen(app.get('port'), () => {
 		app.get('port') + '; нажмите Ctrl+C для завершения.');
 })
 
-const fortunes = [
-	"Победи свои страхи, или они победят тебя.",
-	"Рекам нужны истоки.",
-	"Не бойся неведомого.",
-	"Тебя ждет приятный сюрприз.",
-	"Будь проще везде, где только можно.",
-];
+
